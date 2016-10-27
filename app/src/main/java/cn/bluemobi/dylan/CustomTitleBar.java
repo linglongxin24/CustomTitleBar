@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.Button;
+import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -16,7 +15,7 @@ import android.widget.TextView;
  * Created by yuandl on 2016-10-27.
  */
 
-public class CustomTitleBar extends RelativeLayout {
+public class CustomTitleBar extends LinearLayout {
     /**
      * 标题栏的根布局
      */
@@ -24,11 +23,11 @@ public class CustomTitleBar extends RelativeLayout {
     /**
      * 标题栏的左边按返回按钮
      */
-    private Button left_button;
+    private TextView left_button;
     /**
      * 标题栏的右边按保存按钮
      */
-    private Button right_button;
+    private TextView right_button;
     /**
      * 标题栏的中间的文字
      */
@@ -67,6 +66,10 @@ public class CustomTitleBar extends RelativeLayout {
      * 返回按钮上显示的文字大小
      */
     private int left_button_textSize;
+    /**
+     * 是否显示返回按钮
+     */
+    private boolean show_left_button;
 
 
     /**
@@ -85,14 +88,23 @@ public class CustomTitleBar extends RelativeLayout {
      * 右边保存按钮的文字大小
      */
     private int right_button_textSize;
+    /**
+     * 是否显示右边保存按钮
+     */
+    private boolean show_right_button;
+
+    /**
+     * 标题的点击事件
+     */
+    private TitleOnClickListener titleOnClickListener;
 
     public CustomTitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         /**加载布局文件*/
         LayoutInflater.from(context).inflate(R.layout.pub_titlebar, this, true);
         ll = (LinearLayout) findViewById(R.id.ll);
-        left_button = (Button) findViewById(R.id.left_button);
-        right_button = (Button) findViewById(R.id.right_button);
+        left_button = (TextView) findViewById(R.id.left_button);
+        right_button = (TextView) findViewById(R.id.right_button);
         title = (TextView) findViewById(R.id.title);
 
         /**获取属性值*/
@@ -107,18 +119,21 @@ public class CustomTitleBar extends RelativeLayout {
         left_button_text = typedArray.getString(R.styleable.CustomTitleBar_left_button_text);
         left_button_textColor = typedArray.getColor(R.styleable.CustomTitleBar_left_button_textColor, Color.WHITE);
         left_button_textSize = typedArray.getColor(R.styleable.CustomTitleBar_left_button_textSize, 20);
+        show_left_button = typedArray.getBoolean(R.styleable.CustomTitleBar_show_left_button, true);
         /**右边保存按钮相关*/
         right_button_imageId = typedArray.getResourceId(R.styleable.CustomTitleBar_right_button_image, 0);
         right_button_text = typedArray.getString(R.styleable.CustomTitleBar_right_button_text);
         right_button_textColor = typedArray.getColor(R.styleable.CustomTitleBar_right_button_textColor, Color.WHITE);
         right_button_textSize = typedArray.getColor(R.styleable.CustomTitleBar_right_button_textSize, 20);
+        show_right_button = typedArray.getBoolean(R.styleable.CustomTitleBar_show_right_button, true);
         /**设置值*/
 
         setTitle_background_color(title_background_color);
         setTitle_text(title_text);
         setTitle_textSize(title_textSize);
         setTitle_textColor(title_textColor);
-
+        setShow_left_button(show_left_button);
+        setShow_right_button(show_right_button);
         if (!TextUtils.isEmpty(left_button_text)) {//返回按钮显示为文字
             setLeft_button_text(left_button_text);
             setLeft_button_textColor(left_button_textColor);
@@ -134,7 +149,22 @@ public class CustomTitleBar extends RelativeLayout {
         } else {
             setRight_button_imageId(right_button_imageId);
         }
-
+        left_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (titleOnClickListener != null) {
+                    titleOnClickListener.onLeftClick();
+                }
+            }
+        });
+        right_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (titleOnClickListener != null) {
+                    titleOnClickListener.onRightClick();
+                }
+            }
+        });
     }
 
     /**
@@ -142,7 +172,7 @@ public class CustomTitleBar extends RelativeLayout {
      *
      * @return Button
      */
-    public Button getLeft_button() {
+    public TextView getLeft_button() {
         return left_button;
     }
 
@@ -169,7 +199,7 @@ public class CustomTitleBar extends RelativeLayout {
      *
      * @return Button
      */
-    public Button getRight_button() {
+    public TextView getRight_button() {
         return right_button;
     }
 
@@ -210,6 +240,16 @@ public class CustomTitleBar extends RelativeLayout {
     }
 
     /**
+     * 设置是否显示返回按钮
+     *
+     * @param show_left_button
+     */
+    public void setShow_left_button(boolean show_left_button) {
+        left_button.setVisibility(show_left_button ? VISIBLE : INVISIBLE);
+    }
+
+
+    /**
      * 设置右边保存按钮的资源图片
      *
      * @param right_button_imageId
@@ -246,6 +286,16 @@ public class CustomTitleBar extends RelativeLayout {
     }
 
     /**
+     * 设置是显示右边保存按钮
+     *
+     * @param show_right_button
+     */
+    public void setShow_right_button(boolean show_right_button) {
+        right_button.setVisibility(show_right_button ? VISIBLE : INVISIBLE);
+    }
+
+
+    /**
      * 设置标题背景的颜色
      *
      * @param title_background_color
@@ -279,5 +329,31 @@ public class CustomTitleBar extends RelativeLayout {
      */
     public void setTitle_textSize(int title_textSize) {
         title.setTextSize(title_textSize);
+    }
+
+
+    /**
+     * 设置标题的点击监听
+     *
+     * @param titleOnClickListener
+     */
+    public void setOnTitleClickListener(TitleOnClickListener titleOnClickListener) {
+        this.titleOnClickListener = titleOnClickListener;
+    }
+
+    /**
+     * 监听标题点击接口
+     */
+    public interface TitleOnClickListener {
+        /**
+         * 返回按钮的点击事件
+         */
+        void onLeftClick();
+
+        /**
+         * 保存按钮的点击事件
+         */
+        void onRightClick();
+
     }
 }

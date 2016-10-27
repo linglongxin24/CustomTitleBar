@@ -6,6 +6,7 @@
         <attr name="left_button_text" format="string"/>
         <attr name="left_button_textColor" format="color"/>
         <attr name="left_button_textSize" format="dimension"/>
+        <attr name="show_left_button" format="boolean"/>
         <attr name="title_text" format="string"/>
         <attr name="title_textColor" format="color"/>
         <attr name="title_textSize" format="dimension"/>
@@ -13,5 +14,6 @@
         <attr name="right_button_text" format="string"/>
         <attr name="right_button_textColor" format="color"/>
         <attr name="right_button_textSize" format="dimension"/>
+        <attr name="show_right_button" format="boolean"/>
     </declare-styleable>
 </resources>

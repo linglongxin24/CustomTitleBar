@@ -9,13 +9,30 @@
     tools:context="cn.bluemobi.dylan.MainActivity">
 
     <cn.bluemobi.dylan.CustomTitleBar
+        android:id="@+id/ct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title_text="标题"></cn.bluemobi.dylan.CustomTitleBar>
+        app:title_text="标题一"></cn.bluemobi.dylan.CustomTitleBar>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <cn.bluemobi.dylan.CustomTitleBar
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="正文" />
+        app:show_left_button="false"
+        app:title_text="标题二"></cn.bluemobi.dylan.CustomTitleBar>
+
+    <cn.bluemobi.dylan.CustomTitleBar
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:show_right_button="false"
+        app:title_text="标题三"></cn.bluemobi.dylan.CustomTitleBar>
+
+    <cn.bluemobi.dylan.CustomTitleBar
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:show_left_button="false"
+        app:show_right_button="false"
+        app:title_text="标题四"></cn.bluemobi.dylan.CustomTitleBar>
 </LinearLayout>

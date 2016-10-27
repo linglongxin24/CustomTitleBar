@@ -6,14 +6,13 @@
     android:background="#654454"
     android:orientation="horizontal">
 
-    <Button
+    <TextView
         android:id="@+id/left_button"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
         android:background="@mipmap/arrow_left"
-        android:scaleType="fitCenter" />
+       />
 
     <TextView
         android:id="@+id/title"
@@ -23,9 +22,9 @@
         android:gravity="center"
         android:textColor="#000000"
         android:text="标题"
-        android:textSize="22sp" />
+        android:textSize="20sp" />
 
-    <Button
+    <TextView
         android:id="@+id/right_button"
         android:layout_width="48dp"
         android:layout_height="match_parent"
@@ -33,5 +32,5 @@
         android:gravity="center"
         android:textColor="#000000"
         android:text="保存"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 </LinearLayout>
